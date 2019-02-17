@@ -21,6 +21,7 @@ app.use(session({
   prefix: 'mt:uid',
   store: new Redis()
 }))
+//配置cookie的信息
 app.use(bodyParser({
   extendTypes: ['json', 'form', 'text']
 }))

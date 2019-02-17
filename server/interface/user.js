@@ -23,7 +23,9 @@ router.post('/signup', async (ctx, next) => {
   if (code) {
     const saveCode = await Store.hget(`nodeMailer${username}`, 'code')
     const saveExprie = await Store.hget(`nodeMailer${username}`, 'exprie')
+    //获取redis中存在的时间和保存的验证码信息进行判断
     if (saveCode === code) {
+
       if (new Date().getTime() - saveExprie > 0) {
         ctx.body = {
           code: -1,
@@ -85,6 +87,7 @@ router.post('/signup', async (ctx, next) => {
 })
 //登陆接口
 router.post('/signin', async (ctx, next) => {
+    //使用passport.authenticate进行验证
   return passport.authenticate('local', (error, user, info, status) => {
     if (error) {
       ctx.body = {
@@ -121,7 +124,7 @@ router.post('/verify', async (ctx, next) => {
     }
     return false
   }
-
+  //创建发送邮件服务的配置信息
   let transporter = nodeMailer.createTransport({
     service: 'qq',
     auth: {
@@ -146,6 +149,7 @@ router.post('/verify', async (ctx, next) => {
       return console.log(error)
     } else {
       Store.hmset(`nodeMailer:${ko.user}`, 'code', ko.code, 'exprie', ko.exprie, 'email', ko.email)
+      //发送成功配置redis
     }
   })
   ctx.body = {
@@ -156,6 +160,7 @@ router.post('/verify', async (ctx, next) => {
 router.get('/exit', async (ctx, next) => {
   await ctx.logout()
   if (!ctx.isAuthenticated()) {
+      //判断用户是否登陆
     ctx.body = {
       code: 0
     }
@@ -165,6 +170,7 @@ router.get('/exit', async (ctx, next) => {
     }
   }
 })
+//获取用户名的接口
 router.get('/getuser',async (ctx,next)=>{
    if(ctx.isAuthenticated()){
        const {username,email}=ctx.session.passport.user

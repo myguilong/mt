@@ -25,7 +25,7 @@
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" type="email"></el-input>
-          <el-button class="primary" round  @click="sendMsg">发送验证码</el-button>
+          <el-button class="primary" round @click="sendMsg">发送验证码</el-button>
         </el-form-item>
         <el-form-item label="验证码" prop="code">
           <el-input v-model="form.code"></el-input>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import CryptoJS from "crypto-js";
 export default {
   layout: "blank",
   data() {
@@ -105,7 +106,7 @@ export default {
       if (this.timerid) {
         return false;
       }
-      this.$refs['ruleForm'].validateField("name", valid => {
+      this.$refs["ruleForm"].validateField("name", valid => {
         namePass = valid;
         //进行验证
       });
@@ -113,45 +114,61 @@ export default {
       if (namePass) {
         return false;
       }
-      this.$refs['ruleForm'].validateField("email", valid => {
+      this.$refs["ruleForm"].validateField("email", valid => {
         emailPass = valid;
       });
       if (emailPass) {
         return false;
       }
       if (!namePass && !emailPass) {
-        this.$axios.post("/users/verify", {
-          username: encodeURIComponent(this.form.name),email:this.form.email
-        }).then(({status,data})=>{
-            if(status===200 && data && data.code===0)
-            {
-                let count=60;
-                this.statusMsg=`验证码已发生,剩余${count--}秒`
-                this.timerid=setInterval(()=>{
-                    this.statusMsg=`验证码已发生,剩余${count--}秒`
-                    if(count===0)
-                    {
-                        clearInterval(this.timerid)
-                    }
-                },1000)
-            }else
-            {
-                this.statusMsg=data.msg
+        this.$axios
+          .post("/users/verify", {
+            username: encodeURIComponent(this.form.name),
+            email: this.form.email
+          })
+          .then(({ status, data }) => {
+            if (status === 200 && data && data.code === 0) {
+              let count = 60;
+              this.statusMsg = `验证码已发生,剩余${count--}秒`;
+              this.timerid = setInterval(() => {
+                this.statusMsg = `验证码已发生,剩余${count--}秒`;
+                if (count === 0) {
+                  clearInterval(this.timerid);
+                }
+              }, 1000);
+            } else {
+              this.statusMsg = data.msg;
             }
-        });
+          });
       }
     },
     register() {
-        this.$refs['ruleForm'].validate((valid)=>{
-         if(valid){
-             self.$axios.post('/users/singup',{
-                 username:window.encodeURIComponent(this.username),
-                 email:this.email,
-                 password:
-
-             })
-         }
-        })
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          self.$axios
+            .post("/users/singup", {
+              username: window.encodeURIComponent(this.form.username),
+              email: this.form.email,
+              password: CryptoJS.MD5(this.form.pwd).toString(),
+              code: this.form.code
+            })
+            .then(({ status, data }) => {
+              if (status === 200) {
+                if (data && data.code === 0) {
+                  location.href = "/login";
+                } else {
+                  this.eror = data.msg;
+                }
+              } else {
+                this.eror = `服务器出错错误码:${status}`;
+              }
+              //清空eror的信息
+              setTimeout(() => {
+                this.eror = "";
+              }, 1400);
+            });
+        }
+      });
     }
   }
 };
