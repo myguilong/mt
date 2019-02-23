@@ -147,7 +147,7 @@ export default {
         if (valid) {
           self.$axios
             .post("/users/singup", {
-              username: window.encodeURIComponent(this.form.username),
+              username: window.encodeURIComponent(this.form.username),//转换成中文编码
               email: this.form.email,
               password: CryptoJS.MD5(this.form.pwd).toString(),
               code: this.form.code

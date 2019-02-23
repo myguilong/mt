@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const schema = mongoose.Schema;
-
+//配置表的信息
 const UserSchma=new schema({
     username:{
         type:String,
