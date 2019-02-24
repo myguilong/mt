@@ -2,7 +2,6 @@ import Router from 'koa-router'
 import axios from './utils/axios'
 import Poi from '../dbs/models/poi'
 import topSearche from '../dbs/models/topsearche'
-
 const router = new Router({
   prefix: '/search'
 })
@@ -13,12 +12,16 @@ router.get('/getTop', async ctx => {
       'name': new RegExp(ctx.query.input),
       'city': ctx.query.city
     })
+
     ctx.body = {
       code: 0,
       top: top.map(item => {
         return {
           name: item.name,
-          city: item.city
+          city: item.city,
+          longtide:item.longtide,
+          latitude:item.latitude,
+          areaCode:item.areaCode
         }
       })
     }
@@ -65,4 +68,5 @@ router.get('/resultStyleList', async ctx => {
   }
 
 })
+
 export default router

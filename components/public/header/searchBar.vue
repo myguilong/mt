@@ -14,7 +14,7 @@
             @input="input"
             placeholder="搜索商家或地点"
           />
-          <button class="el-button el-button--primary">
+          <button class="el-button el-button--primary" @click="$router.push({path:`/product?key=a`})">
             <i class="el-icon-search"></i>
           </button>
           <dl class="hotPlace" v-if="isHotsearch">

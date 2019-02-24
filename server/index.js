@@ -14,6 +14,7 @@ import passport from './interface/utils/passport'
 import users from './interface/user'
 import geo from './interface/geo'
 import search from './interface/search'
+import categroy from './interface/categroy'
 const app = new Koa()
 app.keys = ['mt', 'keyskeys']
 app.proxy = true;
@@ -55,6 +56,7 @@ async function start() {
   app.use(users.routes()).use(users.allowedMethods())
   app.use(geo.routes()).use(geo.allowedMethods())
   app.use(search.routes()).use(search.allowedMethods())
+  app.use(categroy.routes()).use(categroy.allowedMethods())
   app.use(ctx => {
     ctx.status = 200
     ctx.respond = false // Bypass Koa's built-in response handling

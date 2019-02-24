@@ -1,15 +1,21 @@
 const state = () => ({
-  position: {}
+  position:''
 })
 const mutations = {
   setPosition(state, val) {
-    state.position = val
+    console.log(val)
+    state.position =val
   }
 }
 const actions = {
-  setPosition({
+//   commitPosition({
+//     commit
+//   }, position) {
+//     commit('setPosition', position)
+//   },
+commitPosition: ({
     commit
-  }, position) {
+  }, position) => {
     commit('setPosition', position)
   }
 

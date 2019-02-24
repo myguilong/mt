@@ -16,6 +16,7 @@ const store = () => new Vuex.Store({
       req,
       app
     }) {
+        try{
       //页面一加载调用此时不存在dom实例
       await app.$axios.get('/city/getPosition').then(({
         status,
@@ -28,13 +29,17 @@ const store = () => new Vuex.Store({
          let jsonStr=str.result;
          let obj=(new Function("return"+jsonStr))();
          //字符串转换
-         console.log(obj.cname)
+        // console.log(obj.cname)
         //  lstr=JSON.parse(str)
         //JSON.parse无法在服务端使用
         //  console.log(lstr)
-         commit('geo/setPosition',{city:obj,region:"aa"})
+        commit('geo/setPosition',{city:obj})
         }
       })
+    }catch(error)
+    {
+        commit('geo/setPosition',{city:{cname:"暂无"}})
+    }
       const {status,data:{result}}=  await app.$axios.get('/city/getMenu');
       //console.log(result.data.result)
       commit('home/setMenu',status===200?result:[])

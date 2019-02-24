@@ -67,7 +67,7 @@ export default {
           value: item.cityName
         };
       });
-      console.log(this.cities);
+     
       if (this.cities.length > 0) {
         cb(this.cities);
       }

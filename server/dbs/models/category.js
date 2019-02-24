@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const Schema = mongose.Schema;
+const Schema = mongoose.Schema;
 const Category = new Schema({
   city: {
     type: String
