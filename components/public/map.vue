@@ -18,7 +18,7 @@ export default {
     point: {
       type: Array,
       default() {
-        return [116.46, 39.92];
+        return [];
       }
     }
   },

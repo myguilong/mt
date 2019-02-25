@@ -32,7 +32,6 @@ export default {
       cities: []
     };
   },
-
   components: {},
   async mounted() {
     let a = pinyin("北京").join();
@@ -61,7 +60,6 @@ export default {
           query
         )}`
       );
-      console.log(data);
       this.cities = data.map(item => {
         return {
           value: item.cityName

@@ -2,16 +2,14 @@
 <template>
   <div class="m-crumbs">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item
-        :to="{ path: '/' }"
-      >
+      <el-breadcrumb-item :to="{ path: '/' }">
       {{
-          this.$store.state.geo.position.city?this.$store.state.geo.position.city.cname.replace('市',''):this.$store.state.geo.position.name.replace('市','')
+         this.$store.state.geo.position.city.replace('市','')
           }}
       </el-breadcrumb-item>
       <el-breadcrumb-item>
         <a href="/"> {{
-          this.$store.state.geo.position.city?this.$store.state.geo.position.city.cname.replace('市',''):this.$store.state.geo.position.name.replace('市','')
+         this.$store.state.geo.position.city.replace('市','')
           }}</a>
       </el-breadcrumb-item>
     </el-breadcrumb>

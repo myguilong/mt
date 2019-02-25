@@ -3,7 +3,7 @@ const state = () => ({
 })
 const mutations = {
   setPosition(state, val) {
-    console.log(val)
+   
     state.position =val
   }
 }

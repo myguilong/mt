@@ -72,7 +72,7 @@ export default {
   methods: {
     menuhover(item) {
       this.keykind = item;
-      console.log(this.list[this.keykind].length);
+   
       if (this.list[this.keykind].length == 0) {
         this.$axios
           .get(
@@ -87,16 +87,15 @@ export default {
                       imgUrl:element.imgUrl,
                       oldPrice:element.oldPrice,
                       currentPrice:element.currentPrice,
-                      
                   }
               })
-              console.log(r)
+           
             this.list[this.keykind] = data;
           });
       }
     },
     setImgul(value) {
-      console.log(typeof value);
+   
       let str = value;
       let subvalue = str.split("w.h/");
       subvalue = subvalue.join("");

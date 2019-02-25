@@ -21,7 +21,7 @@
           </p>
           <p>
             <nuxt-link to="/login">
-              <el-button round size="medium">立即登录</el-button>
+               <el-button round size="medium">立即登录</el-button>
             </nuxt-link>
           </p>
         </div>

@@ -6,22 +6,25 @@ import City from '../dbs/models/city'
 let router = new Router({
   prefix: '/city'
 })
-const sign = '3303421'
+const sign = 'c33b71bb56b83eab21cfd97c070ce4ef'
 
 router.get('/getPosition', async ctx => {
-  const clientIp = ctx.request.ip || ctx.request.headers["X-Orig-IP"]
 
-  const result = await axios.get(`http://pv.sohu.com/cityjson?ie=utf-8`)
-
-  let str = result.data;
-  let key = str.indexOf('=')
-  str = str.substr(key + 1, str.length)
-
+  const {
+    status,
+    data: {
+      province,
+      city
+    }
+  } = await axios.get(`http://cp-tools.cn/geo/getPosition?sign=${sign}`)
+  //   let str = result.data;
+  //   let key = str.indexOf('=')
+  //   str = str.substr(key + 1, str.length)
   //去除换行
-  if (result.status == 200) {
+  if (status == 200) {
     ctx.body = {
-      code: 0,
-      result: str
+      province,
+      city
 
     }
   }
@@ -33,34 +36,61 @@ router.get('/getMenu', async ctx => {
   }
 })
 router.get('/getProvince', async ctx => {
-  const result = await province.find();
+  //   const result = await province.find();
+  //   ctx.body = {
+  //     province: result.map(item => {
+  //       return {
+  //         id: item.id,
+  //         name: item.value[0]
+  //       }
+  //     })
+  //   }
+  const {
+    status,
+    data: {
+      province
+    }
+  } = await axios.get(`http://cp-tools.cn/geo/province?sign=${sign}`)
   ctx.body = {
-    province: result.map(item => {
-      return {
-        id: item.id,
-        name: item.value[0]
-      }
-    })
+    province: status === 200 ? province : []
   }
 })
+//获得身份下的市区
 router.get('/getCity', async ctx => {
-  let city = await City.findOne({
-    id: ctx.query.id
-  })
-
-  global.console.log(ctx.query.id)
-  global.console.log(city)
-  ctx.body = {
-    code: 0,
-    city: city.value.map(item => {
-      return {
-        province: item.province,
-        id: item.id,
-        name: item.name
+  //   let city = await City.findOne({
+  //     id: ctx.query.id
+  //   })
+  //   ctx.body = {
+  //     code: 0,
+  //     city: city.value.map(item => {
+  //       return {
+  //         province: item.province,
+  //         id: item.id,
+  //         name: item.name
+  //       }
+  //     })
+  //   }
+  let code = ctx.query.id
+  const {
+    status,
+    data: {
+      city
+    }
+  } = await axios.get(`http://cp-tools.cn/geo/province/${code}?sign=${sign}`)
+  if(status===200)
+  {
+      ctx.body={
+          city
       }
-    })
+  }
+  else
+  {
+      ctx.body={
+          city:[]
+      }
   }
 })
+//搜索城市的api
 router.get('/allcity', async ctx => {
   let city = await City.find();
   let cityArr = []

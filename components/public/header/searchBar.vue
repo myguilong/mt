@@ -14,7 +14,7 @@
             @input="input"
             placeholder="搜索商家或地点"
           />
-          <button class="el-button el-button--primary" @click="$router.push({path:`/product?key=a`})">
+          <button class="el-button el-button--primary" @click="searchButtn">
             <i class="el-icon-search"></i>
           </button>
           <dl class="hotPlace" v-if="isHotsearch">
@@ -98,6 +98,12 @@ export default {
   },
 
   methods: {
+      searchButtn(){
+          this.$router.push({path:`/product?keywords=${this.search}`})
+          setTimeout(()=>{ this.search=""},200)
+         ;
+
+      },
     onFours() {
       this.isFours = true;
     //   let list = this.HotSearch
@@ -115,14 +121,14 @@ export default {
       }, 130);
     },
     input: _.debounce(async function() {
-      let city = "三亚";
+     
       let self = this;
       if (self.search != "") {
         let {
           status,
           data: { top }
         } = await self.$axios.get(
-          `/search/getTop?input=${self.search}&city=${city}`
+          `/search/getTop?input=${self.search}&city=${this.$store.state.geo.position.city.replace('市','')}`
         );
         self.searchListText = top.slice(0, 10);
       }
