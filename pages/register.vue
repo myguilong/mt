@@ -52,14 +52,15 @@ export default {
   layout: "blank",
   data() {
     return {
-      statusMsg: "1234",
+      statusMsg: "",
+       eror: "",
       form: {
         name: "",
         email: "",
         code: "",
         pwd: "",
         aginpwd: "",
-        eror: ""
+       
       },
       rules: {
         name: [
@@ -81,7 +82,8 @@ export default {
             validator: (rule, value, callback) => {
               if (value === "") {
                 callback(new Error("请再次输入密码"));
-              } else if (value != this.pwd) {
+              }
+               else if (value != this.form.pwd) {
                 callback(new Error("两次输入的密码不一致"));
               } else {
                 callback();
@@ -131,9 +133,10 @@ export default {
               let count = 60;
               this.statusMsg = `验证码已发生,剩余${count--}秒`;
               this.timerid = setInterval(() => {
-                this.statusMsg = `验证码已发生,剩余${count--}秒`;
+                this.statusMsg = `验证码已发送,剩余${count--}秒`;
                 if (count === 0) {
                   clearInterval(this.timerid);
+                  this.statusMsg=`可重新发送`
                 }
               }, 1000);
             } else {
@@ -145,9 +148,9 @@ export default {
     register() {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
-          self.$axios
-            .post("/users/singup", {
-              username: window.encodeURIComponent(this.form.username),//转换成中文编码
+        this.$axios
+            .post("/users/regist", {
+              username: window.encodeURIComponent(this.form.name),//转换成中文编码
               email: this.form.email,
               password: CryptoJS.MD5(this.form.pwd).toString(),
               code: this.form.code

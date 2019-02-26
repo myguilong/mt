@@ -29,7 +29,7 @@ export default {
         get expire(){
             //验证码时间
             return ()=>{
-                return new Date().getTime()+60*60*10000
+                return new Date().getTime()+60*1000
             }
         }
     }

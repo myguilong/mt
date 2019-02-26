@@ -3,12 +3,11 @@
   <dl class="m-sum-card">
     <dt>
       <h1>{{detail.name}}</h1>
-        <h2>{{detail.type}}</h2>
-      <el-rate v-model="detail.biz_ext.rating" disabled/>
+      <el-rate v-model="rate" disabled/>
       <span>{{Number(detail.biz_ext.rating)}}分</span>
       <span>{{Number(detail.biz_ext.cost)}}</span>
       <ul>
-        <li >地址:{{detail.address}}</li>
+        <li ><a>地址:{{detail.address}}</a></li>
         <li>电话:{{detail.tel}}</li>
       </ul>
     </dt>
@@ -43,7 +42,11 @@ export default {
 
   components: {},
 
-  computed: {},
+  computed: {
+      rate(){
+          return Number(this.detail.biz_ext.rating) || Math.floor(Math.random() * 5)
+      }
+  },
 
   methods: {}
 }

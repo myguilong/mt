@@ -51,10 +51,10 @@ export default {
   computed: {},
 
   methods: {
-      login(){
+    async  login(){
           this.$axios.post('/users/signin',{
               username:window.encodeURIComponent(this.username),
-              password:CryptoJS.MD5(this.password)
+              password:CryptoJS.MD5(this.password).toString()
 
           }).then(({status,data})=>{
               if(status===200)
@@ -75,6 +75,12 @@ export default {
                   this.error=""
               },1500)
           })
+        // const result = await this.$axios.post('/users/signin',{
+        //       username:window.encodeURIComponent(this.username),
+        //       password:CryptoJS.MD5(this.password).toString()
+
+        //   })
+        //   console.log(result)
       }
   }
 };

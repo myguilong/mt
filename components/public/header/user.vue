@@ -26,12 +26,9 @@ export default {
   methods: {},
  async mounted() {
       //获取用户信息数据
-      this.$axios.get('/users/getUser').then(({status,data})=>{
-          if(data)
-          {
-              this.uer=data.user
-          }
-      })
+    const {status,data:{user}} = await this.$axios.get('users/getuser');
+    console.log(user)
+    this.user=user
   },
 }
 

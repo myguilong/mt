@@ -9,13 +9,12 @@ export default {
   data() {
     return {};
   },
-  middlware: async ctx => {
-    ctx.$axios.get("/users/exit").then(({ status, data }) => {
-        //middleware中间件一进入就执行
-      if (status === 200 && data) {
-        window.location.href = "/";
-      }
-    });
+  middleware: async (ctx) => {
+   const {status,data}=await ctx.$axios.get('/users/exit')
+   console.log(data)
+    if(status===200&&data&&data.code===0){
+      window.location.href='/'
+    }
   },
   components: {},
   computed: {},

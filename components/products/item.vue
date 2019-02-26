@@ -13,11 +13,11 @@
         :colors="['#ff9900', '#ff9900', '#FF9900']"
         disabled/>
       <span
-       v-if="products.rate>5"
+       v-if="products.rate>=5"
         class="s-item-comment">很好</span><span
-         v-if="products.rate>3"
+         v-if="products.rate>=3"
           class="s-item-comment">一般</span><span
-           v-if="products.rate>1"
+           v-if="products.rate<2"
             class="s-item-comment">很差</span>
       <span class="s-item-value">{{products.rate}}分</span>
       <span class="s-item-comment-total">{{products. comment}}人评论</span>

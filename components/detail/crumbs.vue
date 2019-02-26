@@ -9,6 +9,14 @@
 
 <script>
 export default {
+    props:{
+        type:{
+            type:String,
+            default(){
+                return '默认'
+            }
+        }
+    },
   data () {
     return {
     };
