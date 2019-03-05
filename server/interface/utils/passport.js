@@ -1,9 +1,10 @@
 import passport from 'koa-passport'
+//使用koa-passport去注册本地passport
 import LocalStrategy from 'passport-local'
 //本地策略
 import UserModel from '../../dbs/models/user'
 
-// 提交数据(策略)
+// 提交数据(策略),做用户登录验证
 passport.use(new LocalStrategy(async (username,password,done)=>{
     
      let where={username}
